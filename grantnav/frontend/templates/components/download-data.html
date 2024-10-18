@@ -1,0 +1,30 @@
+<div style="display:flex; flex-direction: row; align-items:center; justify-content: end; gap: 6px">
+  <h4 class="margin-right:1">Download Results:</h4>
+
+	<div class="export-button" style="text-align:center">
+		<a class="export-data-button export-data-button--json" href="{% url 'search.json' %}?"
+			title="Export search results as JSON data with recommended fields">
+			{% include 'tokens/export-json-icon.html' %}
+		</a>
+	</div>
+
+	<div class="export-button" style="text-align:center">
+		<a class="export-data-button export-data-button--csv" href="{% url 'search.csv' %}?"
+			title="Export search results as CSV data with recommended fields">
+			{% include 'tokens/export-csv-icon.html' %}
+		</a>
+	</div>
+
+	<div class="export-button" style="text-align: center; margin-right:0">
+		<a href="#" class="modal__trigger button button--teal-dark export-data-button export-data-button--csv"
+			data-id="export-data-modal" title="Export search results as CSV data choosing the fields"
+			id="export-results-csv-btn">
+			Custom CSV
+		</a>
+	</div>
+
+
+
+	{% include 'components/download-data-modal.html' %}
+
+</div>

@@ -1,24 +1,8 @@
 {% load frontend %}
 {% load static %}
     <div class="section">
-        <div class="grantnav-datatable__content--filters {% if widget %}margin-top:0{% endif %}">
+        <div class="grantnav-datatable__content--filters margin-top:0 margin-bottom:0">
             {% include 'components/dropdown-filter.html' with required=True options=dropdownFilterOptions %}
-            {% if not widget %}
-                <a class="grantnav-search__content--insights-large button button--large button--teal-dark bold margin-left:4 margin-right:2" href="{{insights_base_url}}/?{{ query_string }}" title="View search results in 360Insights data visualiser" data-testid="insights-integration-btn">
-                    Visualise your search results in 360Insights
-                </a>
-                <div class="export-wrapper">
-                    <div class="export-label">Export table data:</div>
-                    <div class="export-button">
-                        {% include 'components/export-data-button--csv.html' with data_function='search.csv' query=query_string only %}
-                    </div>
-
-                    <div class="export-button">
-                        {% include 'components/export-data-button--json.html' with data_function='search.json' query=query_string only %}
-                    </div>
-                </div>
-            {% else %}
-            {% endif %}
         </div>
 
         <div class="table--zebra">

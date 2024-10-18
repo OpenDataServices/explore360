@@ -1,0 +1,489 @@
+{% load to_json from frontend %}
+<style scoped>
+  [role="listbox"] {
+    margin: 1em 0 0;
+    padding: 0;
+    min-height: 18em;
+    border: 1px solid #aaa;
+  }
+
+  [role="option"] {
+    position: relative;
+    display: block;
+    margin: 2px;
+    padding: 2px 1em 2px 1.5em;
+    line-height: 1.8em;
+    cursor: pointer;
+  }
+
+  [role="listbox"]:focus [role="option"].focused,
+  [role="option"]:hover {
+    outline: 2px solid currentcolor;
+  }
+
+  [role="option"][aria-selected="true"] span.checkmark::before {
+    position: absolute;
+    left: 0.5em;
+    content: "✓";
+  }
+
+  button[aria-disabled="true"],
+  input[type="submit"][disabled],
+  [role="option"][aria-disabled="true"] {
+    opacity: 0.5;
+  }
+
+</style>
+<div style="display: flex; align-items:baseline;" class="margin-bottom:1">
+  <button type="button" id="dl-add-recommended-fields-btn" class="button button--teal-dark margin-right:1">
+    Add recommended
+  </button>
+  <p id="dl-select-below">Or select from available fields below.</p>
+</div>
+<div class="grid grid--two-columns">
+  <div class="left-area" aria-labelledby="dl-select-below">
+    <span id="dl-available-fields-label" class="margin-top:1">Available fields:</span>
+    <ul id="dl-available-fields" tabindex="0" role="listbox" aria-labelledby="dl-available-fields-label"
+      aria-multiselectable="true" style="min-height: 300px; max-height: 300px; overflow: scroll;">
+      {% for title, fields in export_default_fields.items %}
+
+      {% if "#comment" not in title %}
+
+      {# These are top-level fields #}
+      {% if fields|length == 1 %}
+      <li data-option="{{fields.0|to_json}}" id="dl-field-select-{{fields.0.path}}" class="dl-field-select" role="option"
+        aria-selected="false" title="[DEBUG {{fields.0.path}}]">
+        <span class="checkmark" aria-hidden="true"></span>
+        {{fields.0.title}}
+      </li>
+      {% else %}
+
+      {# These are nested fields #}
+      <div class="dl-group-container">
+        <li role="option" aria-selected="false" class="parent-field-toggle"
+          data-toggle-target="dl-group-{{title|cut:" "}}" data-option="{{fields|to_json}}"
+          title="[DEBUG {{fields.path}}] Expand to show child fields in the {{title}} field">
+          <span class="checkmark" aria-hidden="true"></span>
+          &gt; {{title}} (<a href="#" class="dl-select-all-child-fields">select all {{fields|length}}</a>)
+        </li>
+        <div class="dl-group" id="dl-group-{{title|cut:" "}}" {% if fields|length > 1 %}style="display:none" {% endif %}>
+          {% for field in fields %}
+          <li data-option="{{field|to_json}}" data-option-parent-title="{{title}}" id="dl-field-select-{{field.path}}"
+            class="margin-left:2 dl-field-select" role="option" aria-selected="false" title="[DEBUG {{field.path}}]">
+            <span class="checkmark" aria-hidden="true"></span>
+            {{field.title}} {% if "additional_data" in field.path %}(additional data){% endif %}
+          </li>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% endif %} {# comment in title #}
+
+      {% endfor %}
+    </ul>
+
+    <input type="text" id="field-search" placeholder="Search for a field name" style="width: 100%; margin-top:0" />
+
+  </div>
+  <div class="right-area">
+    <span id="ms_ch_l" class="margin-top:1">Fields chosen (<span id="dl-chosen-fields-count">0</span>):</span>
+    <ul tabindex="0" role="listbox" aria-labelledby="ms_ch_l" aria-activedescendant="" id="dl-chosen-fields-list"
+      aria-multiselectable="true" style="min-height: 333px; max-height: 333px; overflow: scroll;">
+    </ul>
+
+  </div>
+
+  <div class="grid grid--two-columns" style="justify-items: end;">
+    <div style="justify-self: start; min-width: 300px">
+      <button type="button" id="dl-add-fields-btn" class="button button--teal-dark" title="Add selected fields"
+        aria-keyshortcuts="Alt+ArrowRight Enter" aria-disabled="true">
+        Add <span class="dl-selected-counter"></span>
+      </button>
+      <button type="button" id="dl-add-all-fields-btn" class="button button--teal-dark" title="Add all fields">
+        Add all
+      </button>
+    </div>
+    <button type="button" id="dl-clear-fields-btn" class="button button--teal-dark" title="Clear the current selection">
+      Clear
+    </button>
+  </div>
+
+  <div>
+    <button type="button" id="dl-remove-fields-btn" class="button button--teal-dark" aria-disabled="true"
+      title="Remove selected field from chosen fields" style="justify-self: start;">
+      Remove <span class="dl-selected-counter"></span>
+    </button>
+    <button type="button" id="dl-remove-all-fields-btn" class="button button--teal-dark"
+      title="Remove all fields from chosen fields" aria-disabled="true">
+      Remove all
+    </button>
+  </div>
+</div> <!-- / grid -->
+<h4 class="margin-top:1 margin-bottom:1">2. Download the results</h4>
+<form method="post" action="{{action_url}}">
+  {% csrf_token %}
+  <input type="hidden" id="form-data" value="" name="selection" />
+  <input type="hidden" name="json_query" value="{{json_query}}" />
+  <input type="submit" id="dl-download-btn" class="button button--teal-dark button--solid" style="width: 100%"
+    value="{{action_label}}" aria-disabled="true" disabled="disabled" title="Start CSV download" />
+</form>
+
+<script id="recommended-fields-list" type="application/json">
+[
+"result.id",
+"result.title",
+"result.description",
+"result.currency",
+"result.amountAwarded",
+"result.awardDateDateOnly",
+
+"result.plannedDates.0.startDateDateOnly",
+"result.plannedDates.0.endDateDateOnly",
+"result.plannedDates.0.duration",
+
+"result.grantProgramme.0.code",
+"result.grantProgramme.0.title",
+"result.grantProgramme.0.url",
+
+"result.recipientOrganization.0.id",
+"result.recipientOrganization.0.name",
+"result.recipientOrganization.0.charityNumber",
+"result.recipientOrganization.0.companyNumber",
+"result.recipientOrganization.0.postalCode",
+"result.recipientOrganization.0.location.0.name",
+"result.recipientOrganization.0.location.0.geoCodeType",
+"result.recipientOrganization.0.location.0.geoCode",
+
+"result.beneficiaryLocation.0.name",
+"result.beneficiaryLocation.0.geoCode",
+"result.beneficiaryLocation.0.geoCodeType",
+
+"result.recipientIndividual.id",
+"result.recipientIndividual.name",
+
+"result.fundingOrganization.0.id",
+"result.fundingOrganization.0.name",
+
+"result.dateModified",
+
+"result.additional_data.recipientRegionName",
+"result.additional_data.recipientDistrictName",
+"result.additional_data.TSGFundingOrgType",
+"result.additional_data.TSGRecipientType",
+"result.simple_grant_type",
+"result.additional_data.recipientOrgInfos.organisationTypePrimary",
+"result.additional_data.GNRecipientOrgRegionName",
+"result.additional_data.GNRecipientOrgDistrictName",
+"result.additional_data.GNBeneficiaryRegionName",
+"result.additional_data.GNBeneficiaryDistrictName",
+"result.additional_data.GNBeneficiaryCountyName",
+"result.additional_data.GNRecipientOrgCountyName",
+"result.additional_data.GNBestCountyName"
+]
+</script>
+
+<script>
+  const SELECT_ATTR = 'aria-selected';
+  const DISABLE_ATTR = 'aria-disabled';
+
+  class GNSelected extends Array {
+    constructor (btn) {
+      super();
+      this.btn = btn;
+    }
+
+    clear () {
+      this.length = 0;
+      this._updateDom();
+    }
+
+    add (item) {
+      this.push(item);
+      this._updateDom();
+    }
+
+    remove (item) {
+      this.pop(item);
+      this._updateDom();
+    }
+
+    _updateDom () {
+      this.btn.setAttribute(DISABLE_ATTR, this.length === 0);
+      if (this.length > 0) {
+        this.btn.getElementsByClassName('dl-selected-counter')[0].innerText = `(${this.length})`;
+      } else {
+        this.btn.getElementsByClassName('dl-selected-counter')[0].innerText = '';
+      }
+    }
+  }
+
+  class GNListBox {
+    constructor () {
+      this.addBtn = document.getElementById('dl-add-fields-btn');
+      this.addAllBtn = document.getElementById('dl-add-all-fields-btn');
+      this.clearBtn = document.getElementById('dl-clear-fields-btn');
+      this.removeBtn = document.getElementById('dl-remove-fields-btn');
+      this.removeAllBtn = document.getElementById('dl-remove-all-fields-btn');
+      this.addRecommendedBtn = document.getElementById('dl-add-recommended-fields-btn');
+      this.chosenFieldList = document.getElementById('dl-chosen-fields-list');
+      this.downloadBtn = document.getElementById('dl-download-btn');
+      /* toAdd and toRemove are the staging arrays pending pressing the add/remove button */
+      this.stagedToAdd = new GNSelected(this.addBtn);
+      this.stagedToRemove = new GNSelected(this.removeBtn);
+      /* fieldsChosen contains the final list of paths of fields that will be submitted to the backend */
+      this.fieldsChosen = [];
+      this.recommendedFields = JSON.parse(document.getElementById('recommended-fields-list').textContent);
+    }
+
+    /* Filters the list of available fields */
+    filterCheckboxes (event) {
+      const inputText = event.srcElement.value;
+      const checkboxes = document.querySelectorAll('.dl-field-select');
+
+      /* Open up all the dl-groups */
+      for (const dlGroup of document.querySelectorAll('.dl-group')) {
+        dlGroup.style.display = inputText ? 'block' : 'none';
+      }
+
+      if (!inputText) {
+        /* Reset */
+        for (const checkbox of checkboxes) {
+          checkbox.style.display = 'block';
+        }
+
+        for (const fieldGroupContainer of document.getElementsByClassName('dl-group-container')) {
+          fieldGroupContainer.style.display = 'block';
+        }
+
+        return;
+      }
+
+      for (const checkbox of checkboxes) {
+        const isVisible = checkbox.innerText.trim().toLowerCase().startsWith(inputText.toLowerCase());
+        checkbox.style.display = isVisible ? 'block' : 'none';
+      }
+
+      /* Hide the field group if it has no child items */
+      for (const fieldGroupContainer of document.getElementsByClassName('dl-group-container')) {
+        if (Array.from(fieldGroupContainer.getElementsByClassName('dl-field-select')).filter(el => el.style.display !== 'none').length === 0) {
+          fieldGroupContainer.style.display = 'none';
+        } else {
+          fieldGroupContainer.style.display = 'block';
+        }
+      }
+    }
+
+    removeItemToRemove (item) {
+      this.stagedToRemove.add(item);
+      this.removeBtn.setAttribute(DISABLE_ATTR, this.stagedToRemove.length === 0);
+    }
+
+    select (event) {
+      const item = event.srcElement;
+
+      if (item.getAttribute(DISABLE_ATTR) === 'true') {
+        return;
+      }
+
+      /* if already selected then toggle this off / remove from selection */
+      if (item.ariaSelected === 'true') {
+        item.setAttribute('aria-selected', 'false');
+        this.stagedToRemove.remove(item);
+        this.stagedToAdd.remove(item);
+        return;
+      }
+
+      item.setAttribute('aria-selected', 'true');
+      item.setAttribute('tabindex', '0');
+
+      if (item.id.endsWith('-selected')) {
+        this.removeItemToRemove(item);
+      } else {
+        this.stagedToAdd.add(item);
+      }
+    }
+
+    updateChosenFieldsList () {
+      this.fieldsChosen = Array.from(this.chosenFieldList.children).map((item) => {
+        return JSON.parse(item.dataset.option);
+      });
+
+      /* Update UI states */
+
+      document.getElementById('dl-chosen-fields-count').innerText = this.fieldsChosen.length;
+      document.getElementById('form-data').value = JSON.stringify(this.fieldsChosen);
+
+      this.removeAllBtn.setAttribute(DISABLE_ATTR, this.fieldsChosen.length === 0);
+      this.downloadBtn.setAttribute(DISABLE_ATTR, this.fieldsChosen.length === 0);
+
+      if (this.fieldsChosen.length) {
+        this.downloadBtn.removeAttribute('disabled');
+      } else {
+        this.downloadBtn.setAttribute('disabled', 'disabled');
+      }
+    }
+
+    setupEvents () {
+      this.clearBtn.addEventListener('click', () => {
+        this.stagedToAdd.clear();
+        /* Clear the selection ticks */
+        for (const el of document.getElementsByClassName('dl-field-select')) {
+          el.setAttribute(SELECT_ATTR, false);
+        }
+
+        for (const el of document.getElementsByClassName('parent-field-toggle')) {
+          el.setAttribute(SELECT_ATTR, false);
+        }
+      });
+
+      this.addAllBtn.addEventListener('click', async () => {
+        for (const item of document.querySelectorAll('#dl-available-fields .dl-field-select[aria-selected=false]')) {
+          item.click();
+        }
+
+        this.addBtn.click();
+      });
+
+      /* Field options events */
+      for (const el of document.getElementsByClassName('dl-field-select')) {
+        el.addEventListener('click', this.select.bind(this));
+      }
+
+      /* child field events toggle */
+      for (const el of document.getElementsByClassName('parent-field-toggle')) {
+        /* select all N * for a parent field */
+        el.getElementsByClassName('dl-select-all-child-fields')[0].addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const childFields = document.getElementById(el.dataset.toggleTarget);
+          /* Select/deselect all the fields in this group */
+          for (const childField of childFields.children) {
+            if (childField.getAttribute(SELECT_ATTR) === 'true') {
+              continue;
+            }
+
+            const mockSelectEvent = {};
+
+            mockSelectEvent.srcElement = childField;
+            this.select(mockSelectEvent);
+          }
+
+          el.setAttribute(SELECT_ATTR, 'true');
+        });
+
+        /* hide show child fields and tick handler */
+        el.addEventListener('click', () => {
+          const childFields = document.getElementById(el.dataset.toggleTarget);
+
+          /* Open / Close the child field container  */
+          if (childFields.style.display === 'none') {
+            childFields.style.display = 'block';
+          } else {
+            childFields.style.display = 'none';
+          }
+        });
+      }
+
+      this.addBtn.addEventListener('click', () => {
+        if (this.addBtn.getAttribute(DISABLE_ATTR) === 'true') {
+          return;
+        }
+
+        const existingFieldPaths = this.fieldsChosen.map((item) => { return item.path; });
+
+        for (const item of this.stagedToAdd) {
+          /* Check the item isn't already in the right hand list */
+          if (existingFieldPaths.includes(JSON.parse(item.dataset.option).path)) {
+            continue;
+          }
+
+          /* Setup the new item in the right hand selected list */
+          const itemClone = item.cloneNode(true);
+
+          /* Now that we've cloned it make the original item 'greyed out' */
+          item.setAttribute(DISABLE_ATTR, true);
+
+          itemClone.setAttribute(SELECT_ATTR, false);
+          itemClone.setAttribute('id', `${itemClone.id}-selected`);
+          itemClone.addEventListener('click', this.select.bind(this));
+
+          /* Check to see if this is a child item if it is append the parent title  */
+          if (itemClone.dataset.optionParentTitle) {
+            /* Remove the indent for the child item */
+            itemClone.classList.remove('margin-left:2');
+            /* We use innerHTML here to also remove any existing elements such as new line breaks */
+            itemClone.innerHTML = `<span class="checkmark" aria-hidden="true"></span>${itemClone.dataset.optionParentTitle}: ${itemClone.innerText}`;
+          }
+
+          this.chosenFieldList.appendChild(itemClone);
+        }
+
+        this.stagedToAdd.clear();
+
+        /* Clear the selection ticks */
+        for (const el of document.getElementsByClassName('dl-field-select')) {
+          el.setAttribute(SELECT_ATTR, false);
+        }
+
+        for (const el of document.getElementsByClassName('parent-field-toggle')) {
+          el.setAttribute(SELECT_ATTR, false);
+        }
+
+        this.updateChosenFieldsList();
+      });
+
+      this.removeBtn.addEventListener('click', () => {
+        if (this.removeBtn.getAttribute(DISABLE_ATTR) === 'true') {
+          return;
+        }
+
+        /* Remove the html elements */
+        for (const item of this.stagedToRemove) {
+          item.remove();
+          /* Get the other clone from the add side and remove the greyed out */
+          document.getElementById(item.id.slice(0, -'-selected'.length)).setAttribute(DISABLE_ATTR, false);
+        }
+        this.stagedToRemove.clear();
+        this.updateChosenFieldsList();
+      });
+
+      this.removeAllBtn.addEventListener('click', () => {
+        if (this.removeAllBtn.getAttribute(DISABLE_ATTR) === 'true') {
+          return;
+        }
+
+        /* If removed all fields un-grey-out all the options in available fields
+        *  (this doesn't bother checking if they're greyed out already or not)
+        */
+        for (const item of document.getElementsByClassName('dl-field-select')) {
+          item.setAttribute(DISABLE_ATTR, false);
+        }
+
+        this.chosenFieldList.innerHTML = '';
+        this.stagedToRemove.clear();
+        this.updateChosenFieldsList();
+      });
+
+      /* Go through all the recommended fields and "click them" when clicking the
+         Add recommended button.
+      */
+      this.addRecommendedBtn.addEventListener('click', () => {
+        for (const item of document.getElementById('dl-available-fields').getElementsByTagName('li')) {
+          const option = JSON.parse(item.dataset.option);
+          if (this.recommendedFields.includes(option.path)) {
+            item.click();
+          }
+        }
+
+        this.addBtn.click();
+      });
+
+      document.getElementById('field-search').addEventListener('keyup', this.filterCheckboxes.bind(this));
+    }
+  }
+
+  const gnl = new GNListBox();
+  gnl.setupEvents();
+</script>
