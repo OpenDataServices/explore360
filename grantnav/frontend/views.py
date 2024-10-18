@@ -134,8 +134,8 @@ SEARCH_SUMMARY_AGGREGATES = {
 }
 
 
-def grants_csv_generator(query):
-    yield csv_layout.grant_csv_titles
+def grants_csv_generator(query, grant_csv_titles, grant_csv_paths):
+    yield grant_csv_titles
     es = get_es()
     for result in scan(es, query, index=get_index()):
         result_with_provenance = {
@@ -143,7 +143,7 @@ def grants_csv_generator(query):
             "dataset": provenance.by_identifier.get(provenance.identifier_from_filename(result['_source']['filename']), {})
         }
         line = []
-        for path in csv_layout.grant_csv_paths:
+        for path in grant_csv_paths:
             line.append(helpers.get_data_from_path(path, result_with_provenance))
         yield line
 
@@ -167,13 +167,26 @@ class Echo(object):
         return value
 
 
-def grants_csv_paged(query):
+def grants_csv_paged(query, grant_csv_paths=csv_layout.grant_csv_paths, grant_csv_titles=csv_layout.grant_csv_titles):
     query.pop('extra_context', None)
     query.pop('aggs', None)
     query['query']['bool']['filter'].append({"term": {"dataType": {"value": "grant"}}})
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
-    response = StreamingHttpResponse(chain(['\ufeff'], (writer.writerow(row) for row in grants_csv_generator(helpers.clean_for_es(query)))), content_type='text/csv')
+    response = StreamingHttpResponse(
+        chain(
+            ["\ufeff"],
+            (
+                writer.writerow(row)
+                for row in grants_csv_generator(
+                    helpers.clean_for_es(query),
+                    grant_csv_paths=grant_csv_paths,
+                    grant_csv_titles=grant_csv_titles,
+                )
+            ),
+        ),
+        content_type="text/csv",
+    )
     response['Content-Disposition'] = 'attachment; filename="grantnav-{0}.csv"'.format(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
     return response
 
@@ -930,6 +943,8 @@ def search(request, template_name="search.html"):
 
         if result_format == "aggregates_api":
             return context
+
+        context["export_default_fields"] = csv_layout.grants_csv_dict
 
         return render(request, template_name, context=context)
 

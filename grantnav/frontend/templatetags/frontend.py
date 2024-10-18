@@ -226,3 +226,13 @@ def human_format(num):
 def concat(str_a, str_b):
     """concat two strings"""
     return f"{str_a}{str_b}"
+
+
+@register.filter(name="to_json")
+def to_json(data):
+    return json.dumps(data)
+
+
+@register.filter(name="estimate_csv_file_size")
+def estimate_csv_file_size(num_grants):
+    return num_grants * 430

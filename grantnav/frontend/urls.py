@@ -3,6 +3,7 @@ from django.conf.urls import url
 from . import views
 from . import recipients_search_view
 from . import funders_search_view
+from . import user_csv_layout
 from django.views.generic import TemplateView
 from django.views.generic import RedirectView
 
@@ -38,6 +39,7 @@ urlpatterns = [
     url(r'^datasets/$', views.datasets, name='datasets'),
     url(r'^terms', TemplateView.as_view(template_name='terms.html'), name='terms'),
     url(r'^about', TemplateView.as_view(template_name='about.html'), name='about'),
+    url(r'^search_custom.csv', user_csv_layout.process, name="custom_download"),
     # Redirects
     url(r'^individuals', views.individuals, name="individuals"),
     url(r'^publisher/(.*)$', views.publisher, name='publisher'),
