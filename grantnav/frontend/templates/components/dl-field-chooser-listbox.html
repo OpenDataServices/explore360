@@ -322,6 +322,25 @@
       } else {
         this.downloadBtn.setAttribute('disabled', 'disabled');
       }
+
+      /* Update whether we should "grey out" the field category
+         if all of the child items have been added to the list.
+       */
+      for (const parentCategory of document.getElementsByClassName('parent-field-toggle')) {
+        const childFields = JSON.parse(parentCategory.dataset.option);
+
+        let fieldsChosenCounter = 0;
+
+        for (const childField of childFields) {
+          if (this.fieldsChosen.map((item) => { return item.path; }).includes(childField.path)) {
+            fieldsChosenCounter++;
+          }
+        }
+
+        parentCategory.setAttribute(DISABLE_ATTR, fieldsChosenCounter === childFields.length);
+      }
+
+      /* End update UI states */
     }
 
     setupEvents () {
