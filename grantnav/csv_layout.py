@@ -109,7 +109,7 @@ grants_csv = OrderedDict([
     ("Beneficiary District (additional data)", "result.additional_data.GNBeneficiaryDistrictName"),
     ("Beneficiary District Geographic code (additional data)", "result.additional_data.GNBeneficiaryDistrictGeoCode"),
 
-    ("Retrieved for use in GrantNav (additional data)", "dataset.additional_data.datagetter_metadata.datetime_downloaded"),
+    ("Retrieved for use in GrantNav (additional data)", "dataset.datagetter_metadata.datetime_downloaded"),
     ("Funding Org: Org Type (additional data)", "result.additional_data.TSGFundingOrgType"),
     ("Funding Org: Canonical Org ID (additional data)", "result.additional_data.GNCanonicalFundingOrgId"),
     ("Funding Org: Canonical Name (additional data)", "result.additional_data.GNCanonicalFundingOrgName"),
