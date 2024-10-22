@@ -86,7 +86,7 @@ grants_csv = OrderedDict([
     ("Beneficiary Location:7:Geographic Code", "result.beneficiaryLocation.7.geoCode"),
     ("Beneficiary Location:7:Geographic Code Type", "result.beneficiaryLocation.7.geoCodeType"),
     ("From An Open Call?", "result.fromOpenCall"),
-#    ("#comment The following fields are not in the 360 Giving Standard and are added by GrantNav.", ""),
+    # ("#comment The following fields are not in the 360 Giving Standard and are added by GrantNav.", ""),
     # Additional data
     ("Data Source", "dataset.distribution.0.downloadURL"),
     ("Publisher:Name", "dataset.publisher.name"),
