@@ -168,7 +168,7 @@ def grants_csv_to_dictionary():
     res = {}
 
     for title, path in grants_csv.items():
-        parsed = title.split(":")
+        parsed = title.split(":", maxsplit=1)
         # initialise array if needed
         if not res.get(parsed[0]):
             res[parsed[0]] = []
