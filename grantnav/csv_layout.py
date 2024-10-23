@@ -159,7 +159,7 @@ def grants_csv_to_dictionary():
     """ takes grants_csv and turns it into a dictionary of parent/child
     fields e.g.
 
-    res["Planned Dates"][
+    res["Planned Dates"] = [
      {'title': 'Start Date', 'path': 'result.plannedDates.0.startDateDateOnly'},
      {'title': 'End Date', 'path': 'result.plannedDates.0.endDateDateOnly'},
      {'title': 'Duration (months)', 'path': 'result.plannedDates.0.duration'}
