@@ -1,13 +1,15 @@
 {% load to_json from frontend %}
 <style scoped>
-  [role="listbox"] {
+.dl-field-chooser {
+
+ & [role="listbox"] {
     margin: 1em 0 0;
     padding: 0;
     min-height: 18em;
     border: 1px solid #aaa;
   }
 
-  [role="option"] {
+ & [role="option"] {
     position: relative;
     display: block;
     margin: 2px;
@@ -16,119 +18,120 @@
     cursor: pointer;
   }
 
-  [role="listbox"]:focus [role="option"].focused,
-  [role="option"]:hover {
+ & [role="listbox"]:focus [role="option"].focused,
+   [role="option"]:hover {
     outline: 2px solid currentcolor;
   }
 
-  [role="option"][aria-selected="true"] span.checkmark::before {
+ & [role="option"][aria-selected="true"] span.checkmark::before {
     position: absolute;
     left: 0.5em;
     content: "✓";
   }
 
-  button[aria-disabled="true"],
-  input[type="submit"][disabled],
-  [role="option"][aria-disabled="true"] {
+ &  button[aria-disabled="true"],
+   input[type="submit"][disabled],
+   [role="option"][aria-disabled="true"] {
     opacity: 0.5;
   }
-
+}
 </style>
-<div style="display: flex; align-items:baseline;" class="margin-bottom:1">
-  <button type="button" id="dl-add-recommended-fields-btn" class="button button--teal-dark margin-right:1">
-    Add recommended
-  </button>
-  <p id="dl-select-below">Or select from available fields below.</p>
-</div>
-<div class="grid grid--two-columns">
-  <div class="left-area" aria-labelledby="dl-select-below">
-    <span id="dl-available-fields-label" class="margin-top:1">Available fields:</span>
-    <ul id="dl-available-fields" tabindex="0" role="listbox" aria-labelledby="dl-available-fields-label"
-      aria-multiselectable="true" style="min-height: 300px; max-height: 300px; overflow: scroll;">
-      {% for title, fields in export_default_fields.items %}
+<div class="dl-field-chooser">
+  <div style="display: flex; align-items:baseline;" class="margin-bottom:1">
+    <button type="button" id="dl-add-recommended-fields-btn" class="button button--teal-dark margin-right:1">
+      Add recommended
+    </button>
+    <p id="dl-select-below">Or select from available fields below.</p>
+  </div>
+  <div class="grid grid--two-columns">
+    <div class="left-area" aria-labelledby="dl-select-below">
+      <span id="dl-available-fields-label" class="margin-top:1">Available fields:</span>
+      <ul id="dl-available-fields" tabindex="0" role="listbox" aria-labelledby="dl-available-fields-label"
+        aria-multiselectable="true" style="min-height: 300px; max-height: 300px; overflow: scroll;">
+        {% for title, fields in export_default_fields.items %}
 
-      {% if "#comment" not in title %}
+        {% if "#comment" not in title %}
 
-      {# These are top-level fields #}
-      {% if fields|length == 1 %}
-      <li data-option="{{fields.0|to_json}}" id="dl-field-select-{{fields.0.path}}" class="dl-field-select" role="option"
-        aria-selected="false" title="[DEBUG {{fields.0.path}}]">
-        <span class="checkmark" aria-hidden="true"></span>
-        {{fields.0.title}}
-      </li>
-      {% else %}
-
-      {# These are nested fields #}
-      <div class="dl-group-container">
-        <li role="option" aria-selected="false" class="parent-field-toggle"
-          data-toggle-target="dl-group-{{title|cut:" "}}" data-option="{{fields|to_json}}"
-          title="[DEBUG {{fields.path}}] Expand to show child fields in the {{title}} field">
+        {# These are top-level fields #}
+        {% if fields|length == 1 %}
+        <li data-option="{{fields.0|to_json}}" id="dl-field-select-{{fields.0.path}}" class="dl-field-select" role="option"
+          aria-selected="false" title="[DEBUG {{fields.0.path}}]">
           <span class="checkmark" aria-hidden="true"></span>
-          &gt; {{title}} (<a href="#" class="dl-select-all-child-fields">select all {{fields|length}}</a>)
+          {{fields.0.title}}
         </li>
-        <div class="dl-group" id="dl-group-{{title|cut:" "}}" {% if fields|length > 1 %}style="display:none" {% endif %}>
-          {% for field in fields %}
-          <li data-option="{{field|to_json}}" data-option-parent-title="{{title}}" id="dl-field-select-{{field.path}}"
-            class="margin-left:2 dl-field-select" role="option" aria-selected="false" title="[DEBUG {{field.path}}]">
+        {% else %}
+
+        {# These are nested fields #}
+        <div class="dl-group-container">
+          <li role="option" aria-selected="false" class="parent-field-toggle"
+            data-toggle-target="dl-group-{{title|cut:" "}}" data-option="{{fields|to_json}}"
+            title="[DEBUG {{fields.path}}] Expand to show child fields in the {{title}} field">
             <span class="checkmark" aria-hidden="true"></span>
-            {{field.title}}
+            &gt; {{title}} (<a href="#" class="dl-select-all-child-fields">select all {{fields|length}}</a>)
           </li>
-          {% endfor %}
+          <div class="dl-group" id="dl-group-{{title|cut:" "}}" {% if fields|length > 1 %}style="display:none" {% endif %}>
+            {% for field in fields %}
+            <li data-option="{{field|to_json}}" data-option-parent-title="{{title}}" id="dl-field-select-{{field.path}}"
+              class="margin-left:2 dl-field-select" role="option" aria-selected="false" title="[DEBUG {{field.path}}]">
+              <span class="checkmark" aria-hidden="true"></span>
+              {{field.title}}
+            </li>
+            {% endfor %}
+          </div>
         </div>
+        {% endif %}
+
+        {% endif %} {# comment in title #}
+
+        {% endfor %}
+      </ul>
+
+      <input type="text" id="field-search" placeholder="Search for a field name" style="width: 100%; margin-top:0" />
+
+    </div>
+    <div class="right-area">
+      <span id="ms_ch_l" class="margin-top:1">Fields chosen (<span id="dl-chosen-fields-count">0</span>):</span>
+      <ul tabindex="0" role="listbox" aria-labelledby="ms_ch_l" aria-activedescendant="" id="dl-chosen-fields-list"
+        aria-multiselectable="true" style="min-height: 333px; max-height: 333px; overflow: scroll;">
+      </ul>
+
+    </div>
+
+    <div class="grid grid--two-columns" style="justify-items: end;">
+      <div style="justify-self: start; min-width: 300px">
+        <button type="button" id="dl-add-fields-btn" class="button button--teal-dark" title="Add selected fields"
+          aria-keyshortcuts="Alt+ArrowRight Enter" aria-disabled="true">
+          Add <span class="dl-selected-counter"></span>
+        </button>
+        <button type="button" id="dl-add-all-fields-btn" class="button button--teal-dark" title="Add all fields">
+          Add all
+        </button>
       </div>
-      {% endif %}
-
-      {% endif %} {# comment in title #}
-
-      {% endfor %}
-    </ul>
-
-    <input type="text" id="field-search" placeholder="Search for a field name" style="width: 100%; margin-top:0" />
-
-  </div>
-  <div class="right-area">
-    <span id="ms_ch_l" class="margin-top:1">Fields chosen (<span id="dl-chosen-fields-count">0</span>):</span>
-    <ul tabindex="0" role="listbox" aria-labelledby="ms_ch_l" aria-activedescendant="" id="dl-chosen-fields-list"
-      aria-multiselectable="true" style="min-height: 333px; max-height: 333px; overflow: scroll;">
-    </ul>
-
-  </div>
-
-  <div class="grid grid--two-columns" style="justify-items: end;">
-    <div style="justify-self: start; min-width: 300px">
-      <button type="button" id="dl-add-fields-btn" class="button button--teal-dark" title="Add selected fields"
-        aria-keyshortcuts="Alt+ArrowRight Enter" aria-disabled="true">
-        Add <span class="dl-selected-counter"></span>
-      </button>
-      <button type="button" id="dl-add-all-fields-btn" class="button button--teal-dark" title="Add all fields">
-        Add all
+      <button type="button" id="dl-clear-fields-btn" class="button button--teal-dark" title="Clear the current selection">
+        Clear
       </button>
     </div>
-    <button type="button" id="dl-clear-fields-btn" class="button button--teal-dark" title="Clear the current selection">
-      Clear
-    </button>
-  </div>
 
-  <div>
-    <button type="button" id="dl-remove-fields-btn" class="button button--teal-dark" aria-disabled="true"
-      title="Remove selected field from chosen fields" style="justify-self: start;">
-      Remove <span class="dl-selected-counter"></span>
-    </button>
-    <button type="button" id="dl-remove-all-fields-btn" class="button button--teal-dark"
-      title="Remove all fields from chosen fields" aria-disabled="true">
-      Remove all
-    </button>
-  </div>
-</div> <!-- / grid -->
-<h4 class="margin-top:1 margin-bottom:1">2. Download the results</h4>
-<form method="post" action="{{action_url}}">
-  {% csrf_token %}
-  <input type="hidden" id="form-data" value="" name="selection" />
-  <input type="hidden" name="json_query" value="{{json_query}}" />
-  <input type="submit" id="dl-download-btn" class="button button--teal-dark button--solid" style="width: 100%"
-    value="{{action_label}}" aria-disabled="true" disabled="disabled" title="Start CSV download" />
-</form>
-
+    <div>
+      <button type="button" id="dl-remove-fields-btn" class="button button--teal-dark" aria-disabled="true"
+        title="Remove selected field from chosen fields" style="justify-self: start;">
+        Remove <span class="dl-selected-counter"></span>
+      </button>
+      <button type="button" id="dl-remove-all-fields-btn" class="button button--teal-dark"
+        title="Remove all fields from chosen fields" aria-disabled="true">
+        Remove all
+      </button>
+    </div>
+  </div> <!-- / grid -->
+  <h4 class="margin-top:1 margin-bottom:1">2. Download the results</h4>
+  <form method="post" action="{{action_url}}">
+    {% csrf_token %}
+    <input type="hidden" id="form-data" value="" name="selection" />
+    <input type="hidden" name="json_query" value="{{json_query}}" />
+    <input type="submit" id="dl-download-btn" class="button button--teal-dark button--solid" style="width: 100%"
+      value="{{action_label}}" aria-disabled="true" disabled="disabled" title="Start CSV download" />
+  </form>
+</div>
 <script id="recommended-fields-list" type="application/json">
 [
 "result.id",
