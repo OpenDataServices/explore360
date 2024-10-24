@@ -89,7 +89,7 @@ grants_csv = OrderedDict([
     # ("#comment The following fields are not in the 360 Giving Standard and are added by GrantNav.", ""),
     # Additional data
     ("Data Source", "dataset.distribution.0.downloadURL"),
-    ("Publisher:Name", "dataset.publisher.name"),
+    ("Publisher Name", "dataset.publisher.name"),
 
     ("Best Available Recipient Region (additional data)", "result.additional_data.recipientRegionName"),
     ("Best Available Recipient District (additional data)", "result.additional_data.recipientDistrictName"),
