@@ -56,7 +56,7 @@
         {# These are top-level fields #}
         {% if fields|length == 1 %}
         <li data-option="{{fields.0|to_json}}" id="dl-field-select-{{fields.0.path}}" class="dl-field-select" role="option"
-          aria-selected="false" title="[DEBUG {{fields.0.path}}]">
+          aria-selected="false">
           <span class="checkmark" aria-hidden="true"></span>
           {{fields.0.title}}
         </li>
@@ -66,14 +66,14 @@
         <div class="dl-group-container">
           <li role="option" aria-selected="false" class="parent-field-toggle"
             data-toggle-target="dl-group-{{title|cut:" "}}" data-option="{{fields|to_json}}"
-            title="[DEBUG {{fields.path}}] Expand to show child fields in the {{title}} field">
+            title="Expand to show child fields in the {{title}} field">
             <span class="checkmark" aria-hidden="true"></span>
             &gt; {{title}} (<a href="#" class="dl-select-all-child-fields">select all {{fields|length}}</a>)
           </li>
           <div class="dl-group" id="dl-group-{{title|cut:" "}}" {% if fields|length > 1 %}style="display:none" {% endif %}>
             {% for field in fields %}
             <li data-option="{{field|to_json}}" data-option-parent-title="{{title}}" id="dl-field-select-{{field.path}}"
-              class="margin-left:2 dl-field-select" role="option" aria-selected="false" title="[DEBUG {{field.path}}]">
+              class="margin-left:2 dl-field-select" role="option" aria-selected="false" >
               <span class="checkmark" aria-hidden="true"></span>
               {{field.title}}
             </li>
