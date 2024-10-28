@@ -50,7 +50,8 @@
         aria-multiselectable="true" style="min-height: 300px; max-height: 300px; overflow: scroll;">
         {% for title, fields in export_default_fields.items %}
 
-        {% if "#comment" not in title %}
+        {# we don't allow note fields to be optional #}
+        {% if "#Note" not in title %}
 
         {# These are top-level fields #}
         {% if fields|length == 1 %}
