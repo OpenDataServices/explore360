@@ -126,8 +126,8 @@ grants_csv = OrderedDict([
     ("Recipient Org: Canonical Name (additional data)", "result.additional_data.GNCanonicalRecipientOrgName"),
 
     # These two always need to be on the end
-    ("#comment License (see note)", "dataset.license"),
-    ("#comment See http://grantnav.threesixtygiving.org/datasets/ for further license information.", ""),
+    ("#Note License (see note)", "dataset.license"),
+    ("#Note See http://grantnav.threesixtygiving.org/datasets/ for further license information.", ""),
 ])
 
 grant_csv_titles = list(grants_csv.keys())
