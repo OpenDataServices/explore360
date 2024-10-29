@@ -6,7 +6,7 @@
 		<button class="modal__close modal__trigger" data-id="export-data-modal"></button>
     <div class="modal__content dl-download-options">
 			<h3 class="margin-top:1">Export search results as a CSV spreadsheet</h3>
-      <p>The CSV will contain {{ results.hits.total|get_amount }} grants. Using the recommended fields the estimated file size is {{results.hits.total.value|estimate_csv_file_size|filesizeformat}}.</p>
+      <p>The CSV will contain <strong>{{ results.hits.total|get_amount }}</strong> grants. Using the recommended fields the estimated file size is {{results.hits.total.value|estimate_csv_file_size|filesizeformat}}.</p>
 
       <h4 class="margin-top:1 margin-bottom:1">1. Select the fields to include in the exported CSV</h4>
 
