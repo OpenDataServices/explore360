@@ -15,6 +15,7 @@ def process(request):
 
     return views.grants_csv_paged(
         json.loads(request.POST.get("json_query", {})),
+        # -2 as we always want to add the last two License and Note fields (non-optional)
         grant_csv_titles=[item["column_title"] for item in fields] + grant_csv_titles[-2:],
         grant_csv_paths=[item["path"] for item in fields],
     )
