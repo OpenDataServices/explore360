@@ -9,14 +9,14 @@
   <h4 class="margin-right:1">Download Results:</h4>
 
 	<div class="export-button" style="text-align:center">
-		<a class="export-data-button export-data-button--json" href="{% url 'search.json' %}?"
+		<a class="export-data-button export-data-button--json" href="{% url 'search.json' %}?{{ query_string }}"
 			title="Export search results as JSON data with recommended fields">
 			{% include 'tokens/export-json-icon.html' %}
 		</a>
 	</div>
 
 	<div class="export-button" style="text-align:center">
-		<a class="export-data-button export-data-button--csv" href="{% url 'search.csv' %}?"
+		<a class="export-data-button export-data-button--csv" href="{% url 'search.csv' %}?{{ query_string }}"
 			title="Export search results as CSV data with recommended fields">
 			{% include 'tokens/export-csv-icon.html' %}
 		</a>
