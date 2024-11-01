@@ -33,8 +33,12 @@ def flatten_schema_titles(schema, path='', title_path=''):
             yield ((path + ': ' + field).lstrip(': '), (title_path + ': ' + title).lstrip(': '))
 
 
+# Load/fetch the schema once on module loading instead of per run
+# of the function
+schema = jsonref.load_uri(settings.GRANT_SCHEMA)
+
+
 def flatten_dict(data, path=tuple()):
-    schema = jsonref.load_uri(settings.GRANT_SCHEMA)
     schema_titles = dict(flatten_schema_titles(schema))
 
     for key, value in data.items():
