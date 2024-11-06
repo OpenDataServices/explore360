@@ -127,65 +127,12 @@
   <h4 class="margin-top:1 margin-bottom:1">2. Download the results</h4>
   <form method="post" action="{{action_url}}">
     {% csrf_token %}
-    <input type="hidden" id="form-data" value="" name="selection" />
+    <input type="hidden" id="dl-form-data" value="" name="selection" />
     <input type="hidden" name="json_query" value="{{json_query}}" />
     <input type="submit" id="dl-download-btn" class="button button--teal-dark button--solid" style="width: 100%"
       value="{{action_label}}" aria-disabled="true" disabled="disabled" title="Start CSV download" />
   </form>
 </div>
-<script id="recommended-fields-list" type="application/json">
-[
-"result.id",
-"result.title",
-"result.description",
-"result.currency",
-"result.amountAwarded",
-"result.awardDateDateOnly",
-
-"result.plannedDates.0.startDateDateOnly",
-"result.plannedDates.0.endDateDateOnly",
-"result.plannedDates.0.duration",
-
-"result.grantProgramme.0.code",
-"result.grantProgramme.0.title",
-"result.grantProgramme.0.url",
-
-"result.recipientOrganization.0.id",
-"result.recipientOrganization.0.name",
-"result.recipientOrganization.0.charityNumber",
-"result.recipientOrganization.0.companyNumber",
-"result.recipientOrganization.0.postalCode",
-"result.recipientOrganization.0.location.0.name",
-"result.recipientOrganization.0.location.0.geoCodeType",
-"result.recipientOrganization.0.location.0.geoCode",
-
-"result.beneficiaryLocation.0.name",
-"result.beneficiaryLocation.0.geoCode",
-"result.beneficiaryLocation.0.geoCodeType",
-
-"result.recipientIndividual.id",
-"result.recipientIndividual.name",
-
-"result.fundingOrganization.0.id",
-"result.fundingOrganization.0.name",
-
-"result.dateModified",
-
-"result.additional_data.recipientRegionName",
-"result.additional_data.recipientDistrictName",
-"result.additional_data.TSGFundingOrgType",
-"result.additional_data.TSGRecipientType",
-"result.simple_grant_type",
-"result.additional_data.recipientOrgInfos.organisationTypePrimary",
-"result.additional_data.GNRecipientOrgRegionName",
-"result.additional_data.GNRecipientOrgDistrictName",
-"result.additional_data.GNBeneficiaryRegionName",
-"result.additional_data.GNBeneficiaryDistrictName",
-"result.additional_data.GNBeneficiaryCountyName",
-"result.additional_data.GNRecipientOrgCountyName",
-"result.additional_data.GNBestCountyName"
-]
-</script>
 
 <script>
   const SELECT_ATTR = 'aria-selected';
@@ -316,7 +263,7 @@
       /* Update UI states */
 
       document.getElementById('dl-chosen-fields-count').innerText = this.fieldsChosen.length;
-      document.getElementById('form-data').value = JSON.stringify(this.fieldsChosen);
+      document.getElementById('dl-form-data').value = JSON.stringify(this.fieldsChosen);
 
       this.removeAllBtn.setAttribute(DISABLE_ATTR, this.fieldsChosen.length === 0);
       this.downloadBtn.setAttribute(DISABLE_ATTR, this.fieldsChosen.length === 0);
