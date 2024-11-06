@@ -34,6 +34,7 @@ grants_csv = OrderedDict([
     ("Recipient Org:Location:2:Name", "result.recipientOrganization.0.location.2.name"),
 
     ("Recipient Individual Id", "result.recipientIndividual.id"),
+    ("Recipient Individual Name", "result.recipientIndividual.name"),
     ("Recipient Individual Details:Primary Grant Reason", "result.toIndividualsDetails.primaryGrantReason"),
     ("Recipient Individual Details:Secondary Grant Reason", "result.toIndividualsDetails.secondaryGrantReason"),
     ("Recipient Individual Details:Grant Purpose", "result.toIndividualsDetails.grantPurpose"),
@@ -49,6 +50,7 @@ grants_csv = OrderedDict([
     ("Grant Programme:Title", "result.grantProgramme.0.title"),
     ("Grant Programme:URL", "result.grantProgramme.0.url"),
 
+    ("Grant Type", "result.simple_grant_type"),
     ("Regrant Type", "result.regrantType"),
 
     ("Funding Type Title", "result.fundingType.0.title"),
@@ -96,16 +98,18 @@ grants_csv = OrderedDict([
     ("Best Available District Geographic Code (additional data)", "result.additional_data.recipientDistrictGeoCode"),
     ("Best Available Ward (additional data)", "result.additional_data.recipientWardName"),
     ("Best Available Ward Geographic Code (additional data)", "result.additional_data.recipientWardNameGeoCode"),
+    ("Best Available County", "result.additional_data.GNBestCountyName"),
 
     ("Recipient Region (additional data)", "result.additional_data.GNRecipientOrgRegionName"),
     ("Recipient Region Geographic code (additional data)", "result.additional_data.GNRecipientOrgRegionGeoCode"),
 
     ("Recipient District (additional data)", "result.additional_data.GNRecipientOrgDistrictName"),
     ("Recipient District Geographic code (additional data)", "result.additional_data.GNRecipientOrgDistrictGeoCode"),
+    ("Recipient County (additional data)", "result.additional_data.GNRecipientOrgCountyName"),
 
     ("Beneficiary Region (additional data)", "result.additional_data.GNBeneficiaryRegionName"),
     ("Beneficiary Region Geographic code (additional data)", "result.additional_data.GNBeneficiaryRegionGeoCode"),
-
+    ("Beneficiary County (additional data)", "result.additional_data.GNBeneficiaryCountyName"),
     ("Beneficiary District (additional data)", "result.additional_data.GNBeneficiaryDistrictName"),
     ("Beneficiary District Geographic code (additional data)", "result.additional_data.GNBeneficiaryDistrictGeoCode"),
 
@@ -124,6 +128,8 @@ grants_csv = OrderedDict([
     ("Recipient Org: Data Source (additional data)", "result.additional_data.recipientOrgInfos.0.source"),
     ("Recipient Org: Canonical Org ID (additional data)", "result.additional_data.GNCanonicalRecipientOrgId"),
     ("Recipient Org: Canonical Name (additional data)", "result.additional_data.GNCanonicalRecipientOrgName"),
+
+    ("Date Modified", "result.dateModified"),
 
     # These two always need to be on the end
     ("License", "dataset.license"),
