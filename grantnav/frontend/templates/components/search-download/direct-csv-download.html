@@ -1,0 +1,41 @@
+<form method="post" action="{% url 'custom_download' %}" id="dl-direct-csv-form">
+  {% csrf_token %}
+  <input type="hidden" id="dl-direct-form-data" value="" name="selection" />
+  <input type="hidden" name="json_query" value="{{ json_query }}" />
+</form>
+{{ export_default_fields|json_script:'dl-direct-available-fields' }}
+
+<script>
+document.getElementById('direct-csv-download-btn').addEventListener('click', function (event) {
+  event.preventDefault();
+
+  const availableFields = JSON.parse(document.getElementById('dl-direct-available-fields').textContent);
+  const recommendedFields = JSON.parse(document.getElementById('recommended-fields-list').textContent);
+
+  const availableFieldsList = [];
+
+  for (const category in availableFields) {
+    availableFieldsList.push(...availableFields[category]);
+  }
+
+  const fields = [];
+
+  /* This isn't the most efficient way round to find field objects however
+   * we need to maintain the order of recommendedFields
+   */
+  for (const field of recommendedFields) {
+    const fieldObj = availableFieldsList.find((item) => {
+      return field === item.path;
+    });
+
+    if (fieldObj) {
+      fields.push(fieldObj);
+    } else {
+      throw new Error(`Error trying to find recommended field ${field} that isn't available`);
+    }
+  }
+
+  document.getElementById('dl-direct-form-data').value = JSON.stringify(fields);
+  document.getElementById('dl-direct-csv-form').submit();
+});
+</script>

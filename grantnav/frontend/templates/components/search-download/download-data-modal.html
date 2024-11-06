@@ -1,0 +1,24 @@
+{% load get_amount from frontend %}
+{% load estimate_csv_file_size from frontend %}
+<div id="export-data-modal" class="modal" aria-hidden>
+  <div class="modal__overlay modal__trigger" data-id="export-data-modal"></div>
+  <div class="modal__window" style="min-width: 960px; overflow-y: auto">
+    <button class="modal__close modal__trigger" data-id="export-data-modal"></button>
+    <div class="modal__content dl-download-options">
+      <h3 class="margin-top:1">Export search results as a CSV spreadsheet</h3>
+      <p>
+        The CSV will contain <strong>{{ results.hits.total|get_amount }}</strong> grants. Using the recommended fields the estimated file size is {{ results.hits.total.value|estimate_csv_file_size|filesizeformat }}.
+      </p>
+
+      <h4 class="margin-top:1 margin-bottom:1">1. Select the fields to include in the exported CSV</h4>
+
+      {% include 'components/search-download/dl-field-chooser-listbox.html' with data=export_default_fields action_label='Download' action_url='/search_custom.csv' %}
+    </div>
+  </div>
+</div>
+<style>
+  .dl-download-options {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

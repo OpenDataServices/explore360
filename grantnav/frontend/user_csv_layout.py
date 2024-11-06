@@ -6,7 +6,14 @@ from grantnav.csv_layout import grant_csv_paths, grant_csv_titles
 
 # Process the custom download request
 def process(request):
-    fields = json.loads(request.POST.get("selection", {}))
+    """
+     requires: 'selection' in POST in the format:
+    [
+      { 'title': 'Name', 'path': 'results.name' },
+      ...
+    ]
+    """
+    fields = json.loads(request.POST.get("selection", []))
 
     # Check the incoming data is known to us
     for field in fields:
