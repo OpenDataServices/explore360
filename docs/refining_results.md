@@ -2,12 +2,12 @@
 .. _refining-results:
 ```
 
-Refining Results
+Filters
 ================
 
 On the search results page, there are a number of filters down the left-hand side. These refine your search.
 
-For each filter, clicking on a value will filter the search results to contain only the grants that match that criterion. To select multiple criteria, click on each relevant value. For example, to see grants made in both GBP and USD, click on GBP, and then USD. Note that the page updates after each click, so a short delay is advisable. 
+For each filter, clicking on a value will filter the search results to contain only the grants that match that criterion. To select multiple criteria, click on each relevant value. For example, to see grants made in both GBP and USD, click on GBP, and then USD. Note that the page updates after each click, so a short delay is advisable.
 
 The numbers in brackets next to the values show the number of grants in the search results that match that criterion.
 
@@ -16,7 +16,7 @@ The numbers in brackets next to the values show the number of grants in the sear
 ```eval_rst
 .. list-table::
   :header-rows: 1
-  :widths: 1 2 2 
+  :widths: 1 2 2
 
   * - GrantNav filter
     - 360Giving Data Standard field
@@ -55,5 +55,3 @@ The numbers in brackets next to the values show the number of grants in the sear
     - For Regrant
     - Derived from whether the For Regrant field was used or not in the data
 ```
-
-  
