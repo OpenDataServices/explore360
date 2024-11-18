@@ -1,66 +1,111 @@
 Downloads
 ============================
 
-GrantNav offers a range of data exports as CSV or JSON files:
-
-* The entire grants data set
-* Search results
-* Grants per region, district, funder and recipient
-* Summary data by funder
-
-## What is included in the GrantNav export files?
-
-### Grants Exports
-
-The JSON files of grants contain all of the data supplied in the original data (both fields from the standard, and any extra fields included by the publisher), plus the [additional data added by the 360Giving pipeline](additional-fields).
-
-The CSV files of grants contain all of the required fields from the 360Giving standard, the most commonly-used optional fields from the standard, plus some commonly-used fields from the data added by the 360Giving pipeline. Columns may be entirely blank if no grant in your download uses a particular field; individual rows may have blank fields if the source data doesn't contain that field.
-
-Grants export files use the [360Giving Standard](https://standard.threesixtygiving.org/en/latest/); refer to the standard website to understand the meaning and contents of the fields.
-
-Note that export files can be very large - in particular the whole dataset is several hundred MB, and large search results can be a similar size. Refining your search or splitting up your export can help, but be aware of the constraints around [refining search results](refining-results)
-
-The entire data set can be exported as [JSON](http://grantnav.threesixtygiving.org/search.json) or [CSV](http://grantnav.threesixtygiving.org/search.csv)
+GrantNav allows you to download search results. This enables you to refine your results further and perform your own analysis, reports and visualisations.
 
 
-```eval_rst
-.. _funder-recipient-summary-fields:
-```
+## Grants search results
 
-### Funder & Recipient Summary Exports
+### Where can I download data from?
 
-The funder and recipient summary pages offer statistics about the grants given to/by each funder and recipient in GrantNav. These statistics can be exported. The JSON and CSV files for the recipient and funder pages contain all of the fields from the tables in GrantNav, plus an extra column containing the organisation ID:
+Grants search results can be downloaded in two ways from the [main search page](https://grantnav.threesixtygiving.org/search):
 
-```eval_rst
-.. list-table::
-    :header-rows: 1
-    :widths: 1 3
+* A basic download of the results, by selecting either the CSV or JSON download buttons
+* A customisable CSV by selecting the “Custom CSV” button, which enables you customise which fields are included in the download.
 
-    * - Field
-      - Description
-    * - Funder / Recipient
-      - Funder or recipient name
-    * - Funder Id / Recipient Id
-      - Identifier code of the funder or recipient
-    * - Grants
-      - Number of grants made by/to the funder or recipient
-    * - Total
-      - Total value of all grants made by/to the funder or recipient
-    * - Average
-      - Average value of a grant made by/to the funder or recipient
-    * - Largest
-      - Value of the largest grant made by/to the funder or recipient
-    * - Smallest
-      - Value of the smallest grant made by/to the funder or recipient
+### What data is included?
 
-```
+The search results download includes the same grants that were returned for your search by taking into account any criteria set in the [search bar](search-bar) or [filters](refining-results).
+
+If no search or filter criteria is set, the entire dataset of over 1 million grants will be downloaded. Be aware that this can take a while!
+
+<p>
+  <a href="refining_results" class="button button--teal">Learn more about refining results</a>
+</p>
+
+### What fields are included?
+
+Files downloaded using the “CSV” or “JSON” download buttons will include the following fields:
+
+* 360Giving Data Standard 10 required fields
+* 360Giving Data Standard recommended fields for publishers
+* Other fields that appear in the filters, for example the Type of Recipient and additional data added by 360Giving, for example Region and District
+
+The Custom CSV download allows you to choose any of the 360Giving Data Standard fields or Additional Data fields added by GrantNav.
+
+Tips for using the Custom CSV:
+
+* Selecting “Add Recommended” will add the fields included in the basic CSV and JSON downloads
+* Related fields are grouped together, for example, “Funding Org” contains all the fields relating to Funding Organisations.
+   * A grouped field is identified by the “>” symbol
+   * You can select all the fields in a related group by choosing “select all” on the top-level heading
+   * You can click on the heading to expand it and select individual fields within
+* Selecting “Add all” will add all the available columns (note: this is over 100 columns)
+* Use the “Search for a field name” input to find specific fields to add to your chosen fields list
+
+<p>
+  <a href="data" class="button button--teal">Learn more about Data in GrantNav</a>
+</p>
+
+### What format is the downloaded data in?
+
+The data can be downloaded in either CSV or JSON format using the “CSV” or “JSON” download buttons. The data can be downloaded in CSV format using the “Custom CSV” download.
 
 
+## Summary data by funder
 
-```eval_rst
-.. _additional-fields:
-```
+### Where can I download data from?
 
-## Fields added by the 360Giving Datastore pipeline
+Summary data by funder can be downloaded from the organisation pages of organisations identified as Funders in 360Giving data. These can be accessed via the [Funder search](https://grantnav.threesixtygiving.org/funders).
 
-The [360Giving Datastore](https://www.threesixtygiving.org/data/360giving-datastore/) carries out an augmentation process, in order to help make the data easier to use in multiple ways. GrantNav uses the datastore for its data supply. These fields are available in the JSON; to understand the fields that are available, click the "Show Additional Data" button on the grant page for some of the grants that you'll be downloading.
+<p>
+  <a href="organisations" class="button button--teal">Learn more about Organisations in GrantNav</a>
+</p>
+
+### What data is included?
+
+This download provides a list of all the organisations that have been identified in the data as Recipients of grants from this Funder.
+
+<p>
+  <a href="locations" class="button button--teal">Learn more about Location in GrantNav</a>
+</p>
+
+### What fields are included?
+
+The fields included for each grant recipient are:
+* Recipient Name – the name of the organisation
+* Recipient ID – the identifier used to identify them in the data, which could be a charity or company number, or an internal reference
+* Grants	Total – the total amount of grants they have received from this funder
+* Average – the average amount of grants they have received from this funder
+* Largest – the amount of the largest grant they have received from this funder
+* Smallest – the amount of the smallest grant they have received from this funder
+
+### What format is the downloaded data in?
+
+The data can be downloaded in either CSV or JSON format.
+
+## Grants by region and district
+
+### Where can I download data from?
+
+Grants by Region and District can be downloaded from the Region and District pages. These can be accessed by clicking on the Region or District of a grant in the grant search results.
+
+### What data is included?
+
+This provides a complete, unfiltered download of all grants whose Best Available location is within the Region or District.
+
+<p>
+  <a href="locations" class="button button--teal">Learn more about Location in GrantNav</a>
+</p>
+
+### What fields are included?
+
+This provides a download of all fields in the 360Giving Data Standard, plus all Additional Data fields added by GrantNav.
+
+<p>
+  <a href="data" class="button button--teal">Learn more about Data in GrantNav</a>
+</p>
+
+### What format is the downloaded data in?
+
+The data can be downloaded in either CSV or JSON format.
