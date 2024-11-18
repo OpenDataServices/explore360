@@ -20,7 +20,7 @@ The search results download includes the same grants that were returned for your
 If no search or filter criteria is set, the entire dataset of over 1 million grants will be downloaded. Be aware that this can take a while!
 
 <p>
-  <a href="refining_results" class="button button--teal">Learn more about refining results</a>
+  <a href="../refining_results" class="button button--teal">Learn more about refining results</a>
 </p>
 
 ### What fields are included?
@@ -44,7 +44,7 @@ Tips for using the Custom CSV:
 * Use the “Search for a field name” input to find specific fields to add to your chosen fields list
 
 <p>
-  <a href="data" class="button button--teal">Learn more about Data in GrantNav</a>
+  <a href="../data" class="button button--teal">Learn more about Data in GrantNav</a>
 </p>
 
 ### What format is the downloaded data in?
@@ -59,7 +59,7 @@ The data can be downloaded in either CSV or JSON format using the “CSV” or �
 Summary data by funder can be downloaded from the organisation pages of organisations identified as Funders in 360Giving data. These can be accessed via the [Funder search](https://grantnav.threesixtygiving.org/funders).
 
 <p>
-  <a href="organisations" class="button button--teal">Learn more about Organisations in GrantNav</a>
+  <a href="../organisations" class="button button--teal">Learn more about Organisations in GrantNav</a>
 </p>
 
 ### What data is included?
@@ -67,7 +67,7 @@ Summary data by funder can be downloaded from the organisation pages of organisa
 This download provides a list of all the organisations that have been identified in the data as Recipients of grants from this Funder.
 
 <p>
-  <a href="locations" class="button button--teal">Learn more about Location in GrantNav</a>
+  <a href="../locations" class="button button--teal">Learn more about Location in GrantNav</a>
 </p>
 
 ### What fields are included?
@@ -95,7 +95,7 @@ Grants by Region and District can be downloaded from the Region and District pag
 This provides a complete, unfiltered download of all grants whose Best Available location is within the Region or District.
 
 <p>
-  <a href="locations" class="button button--teal">Learn more about Location in GrantNav</a>
+  <a href="../locations" class="button button--teal">Learn more about Location in GrantNav</a>
 </p>
 
 ### What fields are included?
@@ -103,7 +103,7 @@ This provides a complete, unfiltered download of all grants whose Best Available
 This provides a download of all fields in the 360Giving Data Standard, plus all Additional Data fields added by GrantNav.
 
 <p>
-  <a href="data" class="button button--teal">Learn more about Data in GrantNav</a>
+  <a href="../data" class="button button--teal">Learn more about Data in GrantNav</a>
 </p>
 
 ### What format is the downloaded data in?
