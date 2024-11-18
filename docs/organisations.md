@@ -2,7 +2,7 @@
 .. _organisations:
 ```
 
-Organisations in GrantNav
+Organisations
 =========================
 
 GrantNav provides a view of all the grants known to be associated with a single organisation. Because one organisation can have lots of different variations of their name (“R S P B”, “Royal Society for the Protection of Birds”, “The RSPB”, and so on), and different organisations can have the same or similar names, GrantNav uses the organisation identifiers (Org IDs) provided by publishers in the 360Giving Data Standard fields Recipient Org:Identifier and Funding Org:Identifier to distinguish between different organisations, and decide what counts as a single organisation.

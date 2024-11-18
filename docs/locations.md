@@ -2,7 +2,7 @@
 .. _locations:
 ```
 
-Understanding Location in GrantNav
+Understanding Location
 ==================================
 
 Understanding where a grant is located is one of the most common tasks that GrantNav is used for, and where there is potential for misunderstanding.

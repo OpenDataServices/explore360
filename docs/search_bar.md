@@ -2,24 +2,24 @@
 .. _search-bar:
 ```
 
-GrantNav Search Bar
+Search Bar
 ===================
 
 GrantNav's search bar is a powerful and flexible tool that forms the starting point for almost every exploration of grants data with GrantNav
 
 ## Text Search
 
-When you enter a term into the search bar and click 'Search', GrantNav searches through all the grants in the database, and presents results in order of relevance - with the results that match the most words, most often, at the top. 
+When you enter a term into the search bar and click 'Search', GrantNav searches through all the grants in the database, and presents results in order of relevance - with the results that match the most words, most often, at the top.
 
-By default, GrantNav searches all of the fields in the grant record - this includes the title and description, the names of places and geocodes, the names of funder and recipient, and any other information that the publisher of the data has provided. 
+By default, GrantNav searches all of the fields in the grant record - this includes the title and description, the names of places and geocodes, the names of funder and recipient, and any other information that the publisher of the data has provided.
 
-To search for a particular phrase, put it in quotes in the search bar. Quotes can also help avoid unexpected results if your search term contains special characters such as dashes or brackets. 
+To search for a particular phrase, put it in quotes in the search bar. Quotes can also help avoid unexpected results if your search term contains special characters such as dashes or brackets.
 
 Text search isn't case-sensitive, so capital and lower-case letters will match each other; "GiRlS" matches "girls". Diacritics are ignored, so "Esmee" matches "Esmée".
 
-GrantNav carries out stemming, so will return results for different forms of the same word; "disability" matches "disability", "disabled", etc. 
+GrantNav carries out stemming, so will return results for different forms of the same word; "disability" matches "disability", "disabled", etc.
 
-On the results page, you can [refine your results](refining-results) to narrow down your search. 
+On the results page, you can [refine your results](refining-results) to narrow down your search.
 
 ```eval_rst
 .. admonition:: Try these examples
@@ -29,7 +29,7 @@ On the results page, you can [refine your results](refining-results) to narrow d
 
         A single word: e.g. <code>[people](https://grantnav.threesixtygiving.org/search?text_query=people)</code>
 
-        Multiple words: e.g. <code>[young people gardens](https://grantnav.threesixtygiving.org/search?text_query=young+people+gardens)</code> . GrantNav will first show results that contain all the words, then those which contain two of the words, and then those which contain only one. 
+        Multiple words: e.g. <code>[young people gardens](https://grantnav.threesixtygiving.org/search?text_query=young+people+gardens)</code> . GrantNav will first show results that contain all the words, then those which contain two of the words, and then those which contain only one.
 
         A phrase: e.g. <code>["frames and stonework"](https://grantnav.threesixtygiving.org/search?text_query="frames%20and%20stonework")</code>
 
@@ -43,7 +43,7 @@ On the results page, you can [refine your results](refining-results) to narrow d
 
 ## AND, OR and NOT operators
 
-The search bar allows you to specify a more constrained search by specifying combinations of words which must or must not appear. 
+The search bar allows you to specify a more constrained search by specifying combinations of words which must or must not appear.
 
 ```eval_rst
 .. admonition:: Try these examples
@@ -58,9 +58,9 @@ The search bar allows you to specify a more constrained search by specifying com
 ```
 
 
-## Searching Specific Fields 
+## Searching Specific Fields
 
-The search bar allows you to search within specific fields within the data, including all of the fields from the [360Giving Data Standard](https://standard.threesixtygiving.org/en/latest/reference/#json-format) and fields provided by specific publishers. To see which fields each publisher provides, look at a sample of the grants that they've published. 
+The search bar allows you to search within specific fields within the data, including all of the fields from the [360Giving Data Standard](https://standard.threesixtygiving.org/en/latest/reference/#json-format) and fields provided by specific publishers. To see which fields each publisher provides, look at a sample of the grants that they've published.
 
 GrantNav uses the JSON field names rather than the "human-friendly" form that you'll normally see used. The conversion uses the following rules:
 
@@ -89,21 +89,21 @@ GrantNav uses the JSON field names rather than the "human-friendly" form that yo
 ```
 ## Searching Ranges
 
-The search bar allows you to search for a range of dates or values. Commonly, this is used to search by financial year rather than calendar year, or to look for specific ranges of funding values. 
+The search bar allows you to search for a range of dates or values. Commonly, this is used to search by financial year rather than calendar year, or to look for specific ranges of funding values.
 
-There are two ways of searching for a range - use whichever is easiest for you at the time! 
+There are two ways of searching for a range - use whichever is easiest for you at the time!
 
 ### The TO operator
 
 This takes the form `fieldName:[value1 TO value2]`.
 
-Either of the values can be a wildcard `*`, which leaves that side of the range unbounded. 
+Either of the values can be a wildcard `*`, which leaves that side of the range unbounded.
 
 ### Comparison operators
 
-This uses the `< <= > >=` operators to describe a range - e.g. `amountAwarded:>1000` . To describe a bounded range using the comparison operators, use the AND keyword. 
+This uses the `< <= > >=` operators to describe a range - e.g. `amountAwarded:>1000` . To describe a bounded range using the comparison operators, use the AND keyword.
 
-As ever, searching for a field that's optional in the standard will exclude all grants that don't have that field provided. 
+As ever, searching for a field that's optional in the standard will exclude all grants that don't have that field provided.
 
 ```eval_rst
 .. admonition:: Try these examples
@@ -120,15 +120,15 @@ As ever, searching for a field that's optional in the standard will exclude all 
         Amount Awarded between £0 and £150: <code>[amountAwarded:[0 TO 150]](https://grantnav.threesixtygiving.org/search?text_query=amountAwarded:[0+TO+150])</code>
 
         Amount Applied for £1000 or more: <code>[amountAppliedFor:>=1000](https://grantnav.threesixtygiving.org/search?text_query=amountAppliedFor:>=1000)</code>
-     
+
 ```
 
 
 ## Wildcards
 
-The `?` wildcard can be used in place of an one character in text, and the `*` wildcard can be in place of any number of characters. 
+The `?` wildcard can be used in place of an one character in text, and the `*` wildcard can be in place of any number of characters.
 
-The `*` wildcard can also be used in place of any date or numerical value in a range, as above. 
+The `*` wildcard can also be used in place of any date or numerical value in a range, as above.
 
 ```eval_rst
 .. admonition:: Try these examples
@@ -148,7 +148,7 @@ You can search for terms that are similar to, but not exactly like your search t
 
 The fuzzy operator will take account of letter transposition (e.g. "youht"), letter replacement (e.g. "touth"), letters missing (e.g. "yoth") and letters added (e.g. "yoouth"), in any combination. This can be useful for taking account of mis-spellings.
 
-Note that GrantNav already carries out stemming (ie, searching for different forms of the same word), so fuzzy matching shouldn't be used for this as the stemming is far more accurate. 
+Note that GrantNav already carries out stemming (ie, searching for different forms of the same word), so fuzzy matching shouldn't be used for this as the stemming is far more accurate.
 
 Results returned from a fuzzy match should be scrutinised closely, as it can very easily include irrelevant results - for example "boys~" matches "boss".
 
@@ -165,9 +165,9 @@ Results returned from a fuzzy match should be scrutinised closely, as it can ver
 
 ## Combining search operators
 
-All of the search operations described here can be combined to query for a very specific set of results. 
+All of the search operations described here can be combined to query for a very specific set of results.
 
-All of the search operations also are compatible with the filters on the left-hand side, so you can search, and then refine. 
+All of the search operations also are compatible with the filters on the left-hand side, so you can search, and then refine.
 
 However, be aware that the more specific the search, the more data is excluded due to data not being provided and data quality issues (such as typos or errors in the data). To learn more about this, see [Understanding Results](understanding-results).
 
@@ -180,8 +180,3 @@ However, be aware that the more specific the search, the more data is excluded d
         Grants under £500 given in 2019 by funders whose name contains "Community Foundation" and whose description relates to disability: <code>[awardDate:[2019-01-01 TO 2019-12-31] AND amountAwarded:<500 AND fundingOrganization.name:"Community Foundation" AND description:disability](https://grantnav.threesixtygiving.org/search?text_query=awardDate:[2019-01-01+TO+2019-12-31]+AND+amountAwarded:<500+AND+fundingOrganization.name:"Community+Foundation"+AND+description:disability)</code>
 
 ```
-
-
-
-
-

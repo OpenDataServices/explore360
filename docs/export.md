@@ -1,4 +1,4 @@
-Exporting Data From GrantNav
+Downloads
 ============================
 
 GrantNav offers a range of data exports as CSV or JSON files:
@@ -64,5 +64,3 @@ The funder and recipient summary pages offer statistics about the grants given t
 ## Fields added by the 360Giving Datastore pipeline
 
 The [360Giving Datastore](https://www.threesixtygiving.org/data/360giving-datastore/) carries out an augmentation process, in order to help make the data easier to use in multiple ways. GrantNav uses the datastore for its data supply. These fields are available in the JSON; to understand the fields that are available, click the "Show Additional Data" button on the grant page for some of the grants that you'll be downloading.
-
-
