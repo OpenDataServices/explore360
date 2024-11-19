@@ -36,7 +36,7 @@ These instructions assume Ubuntu Xenial.
 sudo apt-get install -y git-core
 sudo apt-get install -y python3-dev
 
-git clone https://github.com/ThreeSixtyGiving/grantnav.git
+git clone git@github.com:ThreeSixtyGiving/grantnav.git
 cd grantnav
 python3 -m venv .ve
 source .ve/bin/activate
@@ -143,4 +143,3 @@ Adding and updating requirements
 --------------------------------
 
 Add new requirements to ``requirements.in`` or ``requirements_dev.in`` depending on whether it is just a development requirement or not. Run `pip-compile` (from the package `pip-tools`) on the ".in" file.
-
