@@ -143,3 +143,32 @@ Adding and updating requirements
 --------------------------------
 
 Add new requirements to ``requirements.in`` or ``requirements_dev.in`` depending on whether it is just a development requirement or not. Run `pip-compile` (from the package `pip-tools`) on the ".in" file.
+
+## Editing documentation
+
+
+### Set up a virtual environment
+
+```
+git clone git@github.com:ThreeSixtyGiving/grantnav.git
+cd grantnav
+python3 -m venv .ve
+source .ve/bin/activate
+pip install -r requirements_docs.txt
+```
+In Windows, instead of `source .ve/bin/activate` run `pyenv\Scripts\activate.bat`
+
+### Build the docs
+
+```
+cd docs
+make html
+```
+
+Then open `_build/html/index.html` in your browser.
+
+### Adding a new branch on Read the Docs
+
+Make sure you are a "Maintainer" of the Read the Docs project  https://app.readthedocs.org/projects/grantnav/. If not, request access via code@opendataservices.coop.
+
+If your branch has been newly created, [add a version](https://app.readthedocs.org/dashboard/grantnav/version/create/) by selecting your branch and toggling 'Active'.
