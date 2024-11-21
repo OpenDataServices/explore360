@@ -40,6 +40,15 @@ html_context = {
 
 # -- General configuration ------------------------------------------------
 
+# Manually setting the html_basepath and adjusting templates because rtd aren't injecting into conf.py any more.
+# For more information see https://about.readthedocs.com/blog/2024/07/addons-by-default/
+
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+
+# Tell Jinja2 templates the build is running on Read the Docs
+if os.environ.get("READTHEDOCS", "") == "True":
+    html_context["READTHEDOCS"] = True
+
 # If your documentation needs a minimal Sphinx version, state it here.
 #
 # needs_sphinx = '1.0'
