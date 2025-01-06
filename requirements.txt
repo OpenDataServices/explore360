@@ -10,7 +10,7 @@ backports-datetime-fromisoformat==2.0.2
     # via flattentool
 btrees==6.1
     # via zodb
-certifi==2024.8.30
+certifi==2024.7.4
     # via requests
 cffi==1.17.1
     # via persistent
