@@ -14,6 +14,8 @@ attrs==24.2.0
     #   trio
 backports-datetime-fromisoformat==2.0.2
     # via flattentool
+backports-zoneinfo==0.2.1
+    # via django
 btrees==6.1
     # via zodb
 build==1.2.2
@@ -48,7 +50,7 @@ decorator==5.1.1
     # via retry
 defusedxml==0.7.1
     # via odfpy
-django==3.2.25
+django==4.2.17
     # via
     #   -r requirements.in
     #   django-bootstrap3
@@ -159,9 +161,7 @@ pytest-localserver==0.9.0
 python-dateutil==2.9.0.post0
     # via -r requirements.in
 pytz==2024.2
-    # via
-    #   django
-    #   flattentool
+    # via flattentool
 raven==6.10.0
     # via -r requirements.in
 requests==2.32.3
