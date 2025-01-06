@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v2
     - name: Setup python
@@ -24,11 +24,5 @@ jobs:
     - run: echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
     - run: sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
     - run: "sudo service elasticsearch start"
-
-    - uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements_dev.txt') }}
     - run: pip install -r requirements_dev.txt
-
     - run: ALLOWED_HOSTS=localhost py.test
