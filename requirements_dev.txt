@@ -204,7 +204,7 @@ trio-websocket==0.11.1
     # via selenium
 typing-extensions==4.12.2
     # via asgiref
-urllib3[secure,socks]==1.26.20
+urllib3[secure,socks]==1.26.19
     # via
     #   elasticsearch
     #   requests

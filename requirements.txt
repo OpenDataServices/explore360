@@ -98,7 +98,7 @@ transaction==5.0
     # via zodb
 typing-extensions==4.12.2
     # via asgiref
-urllib3==2.2.3
+urllib3==1.26.19
     # via
     #   elasticsearch
     #   requests
