@@ -9,7 +9,6 @@ python-dateutil
 strict-rfc3339
 titlecase
 dealer==2.1.0
-django-super-favicon
 ijson==2.5.1
 prometheus_client==0.7
 retry
