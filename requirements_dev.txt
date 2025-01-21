@@ -59,8 +59,6 @@ django-cors-headers==4.4.0
     # via -r requirements_dev.in
 django-environ==0.11.2
     # via -r requirements.in
-django-super-favicon==0.6.1
-    # via -r requirements.in
 docopt==0.6.2
     # via coveralls
 elasticsearch==7.0.5
@@ -119,8 +117,6 @@ persistent==6.1
     # via
     #   btrees
     #   zodb
-pillow==10.4.0
-    # via django-super-favicon
 pip-tools==7.4.1
     # via -r requirements_dev.in
 plotly==5.24.1

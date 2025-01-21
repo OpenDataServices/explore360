@@ -83,7 +83,6 @@ INSTALLED_APPS = (
     'grantnav.prometheus',
     'grantnav.api',
     'raven.contrib.django.raven_compat',
-    'favicon',
 )
 
 if DEBUG:
