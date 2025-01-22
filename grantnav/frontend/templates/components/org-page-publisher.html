@@ -21,7 +21,7 @@
 
         <h4>Datasets</h4>
         <p>Here is an overview of grants published by {{publisher.name}}.</p>
-        <table class="table table--zebra table--small dt-responsive generic_datatables" style="width: 100%">
+        <table class="table table--zebra table--small" style="width: 100%">
         <thead>
             <tr>
             <th class="all">Dataset (download link)</th>
@@ -35,7 +35,7 @@
             <tr>
             <td class="table__lead-cell"><a href="{{ dataset.distribution.0.downloadURL }}">{{ dataset.title }}</a></td>
             <td>{{ dataset.datagetter_metadata.datetime_downloaded }}</td>
-            <td><a href="{{ dataset.license }}">{{ dataset.license }}</a></td>
+            <td><a href="{{ dataset.license }}">{{ dataset.license_name }}</a></td>
             <td>
                 {% for funder_name, funder_id in dataset.funders %}
                 <a href="{% url 'org'  funder_id %}">{{ funder_name}}</a>
