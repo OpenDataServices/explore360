@@ -1,63 +1,62 @@
 GrantNav - Explore Grants in the 360 data standard
 ==================================================
 
-[![Build Status](https://travis-ci.com/ThreeSixtyGiving/grantnav.svg?branch=master)](https://travis-ci.com/ThreeSixtyGiving/grantnav)
-
-We use GitHub Projects to provide a Kanban board visualisation of our workflow and issues https://github.com/ThreeSixtyGiving/grantnav/projects
 
 Introduction
 ------------
 
-This is a search tool for data in the 360 giving data format.
+GrantNav is a search tool for data in the 360 giving data format.
 
-Live deploy at https://grantnav.threesixtygiving.org/
+You can find the tool running at [https://grantnav.threesixtygiving.org/](https://grantnav.threesixtygiving.org/)
 
 Requirements
 ------------
-This application is built using Django, Elasticsearch and python 3
+This application is built using Django, Elasticsearch and Python 3.8
 
 Installation
 ------------
 Steps to installation:
 
-* Install pre-requisites: Git, Python3, and lots of things for Pillow.
-* Clone the repository
-* Change into the cloned repository
-* Create a virtual environment
-* Activate the virtual environment
-* Install dependencies
-* Install Elastic search
-* Run database migrations
-* Run the development server
 
-These instructions assume Ubuntu Xenial.
-
+1. Check out the GrantNav repository
 ```
-sudo apt-get install -y git-core
-sudo apt-get install -y python3-dev
-
 git clone https://github.com/ThreeSixtyGiving/grantnav.git
 cd grantnav
-python3 -m venv .ve
+```
+
+2. Create python virtual environment
+```
+python3.8 -m venv .ve
 source .ve/bin/activate
-# Make sure you have a recent version of pip, to install binary wheel packages.
-pip install --upgrade pip
-pip install -r requirements.txt # Use requirements_dev.txt if you're installing for development.
-# Elasticsearch 7 https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+```
+
+3. Install dependencies
+
+This installs Elasticsearch 7 see https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html for further information.
+If you are not on Debian based system you will need to follow https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#setup-installation to install elasticsearch.
+
+```
+pip install -r requirements.txt # Use 'requirements_dev.txt' if you're installing for development and testing.
+
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
 sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install elasticsearch
 sudo service elasticsearch start
-python manage.py migrate
-# Running the tests gets some data into the elastic index
-py.test
-python manage.py runserver
 ```
 
-Note that if you are not on Debian based system you will need to follow https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#setup-installation to install elasticsearch.
-Follow the instructions in your terminal to open the aplication in your browser.
+4. Run migrate to install the default django database for sessions etc (sqlite)
+
+```
+python manage.py migrate
+```
+
+5. Run the development server
+
+```
+DEBUG=true python manage.py runserver
+```
 
 ## Database
 
@@ -68,7 +67,7 @@ note: This is not related to elasticsearch.
 Accessing GrantNav
 ------------------
 
-The above command gives you a local server listening on port 8000. If you're installing inside a virtual machine, you will need to do some or all of the following:
+The `runserver` command gives you a local server which by default listens on port 8000. If you're installing inside a virtual machine, you will need to do some or all of the following:
 
 1. Modify or disable the firewall to allow connections. (`sudo ufw disable`)
 2. Set the `ALLOWED_HOSTS` environment variable to include your host IP: `export ALLOWED_HOSTS='localhost','127.0.0.1','192.168.33.10'`
@@ -81,7 +80,9 @@ Loading Data
 
 In order to load some data use the dataload/import_to_elasticsearch.py command line tool e.g:
 
-`python dataload/import_to_elasticsearch.py --clean filename1.csv filename2.csv *.json`
+```
+python dataload/import_to_elasticsearch.py --clean /path/to/data_package/json_all/*.json --funders /path/to/data_package/funders.jl --recipients /path/to/data_package/recipients.jl
+```
 
 The clean command is optional; it will delete the index and start again, so leave it off if you want to add just another file to an existing index.
 You can specify as many file or patterns as you like at the end of the command.
@@ -90,11 +91,12 @@ The funders and recipients search requires the datastore generated `funders.jl` 
 
 ### Getting data for loading
 
-There is a list of 360Giving datasets at https://data.threesixtygiving.org/. There's an API for this list https://data.threesixtygiving.org/data.json and a datagetter tool to download and convert it -  https://github.com/ThreeSixtyGiving/datagetter
+Either:
 
-If your data is in a flat format (eg Excel spreadsheet, CSV), or needs validating, you can use [CoVE](https://cove.opendataservices.coop/360/) to convert and validate your data.
+1. [Contact 360 Giving](https://www.threesixtygiving.org/contact/) for access to the grantnav daily data package.
+or
+2. Use the [datagetter](https://github.com/ThreeSixtyGiving/datagetter) to download all the [available 360 Giving data](https://registry.threesixtygiving.org) from publishers. 
 
-Alternatively contact 360Giving for the latest data dump from the datastore.
 ### Provenance JSON
 
 Most parts of GrantNav work fine without provenance information. However, in order for the publisher/datasets pages to work correctly you must point the `PROVENANCE_JSON` environment variable at a local copy of [data.json](https://data.threesixtygiving.org/data.json). You must also load the data into GrantNav using filenames that correspond to the identifiers in this JSON. The [datagetter](https://github.com/ThreeSixtyGiving/datagetter) saves files with the correct name, and also makes a copy of data.json for you.
@@ -102,10 +104,7 @@ Most parts of GrantNav work fine without provenance information. However, in ord
 e.g.
 
 ```
-cd datagetter/data/json_acceptable_license_valid
-python path/to/grantnav/dataload/import_to_elasticsearch.py --clean *
-cd path/to/grantnav
-PROVENANCE_JSON=path/to/datagetter/data/data_acceptable_license_valid.json python manage.py runserver
+PROVENANCE_JSON=path/to/data_package/data_all.json python manage.py runserver
 ```
 
 
