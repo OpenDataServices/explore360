@@ -104,6 +104,7 @@
                   {% if key == "Amount Awarded" and value < 1 %}
                     {{value}}
                     <a href="https://help.grantnav.threesixtygiving.org/en/latest/search_results/#some-grantmakers-publish-grants-with-0-or-negative-values"><img src="/static/images/icon-help-50.png" width="15" height="15" id="zero_value_grant_help_link"></a>
+                  {# Insert the human readable values for these codelist codes #}
 
                   {% elif "grantPurpose" in key %}
                     <a href="https://standard.threesixtygiving.org/en/latest/technical/codelists/#grant-to-individuals-purpose"
@@ -128,6 +129,12 @@
                       title="{{grant.source.additional_data.codeListLookup.regrantType}}"
                     >{{value}}
                     </a>
+
+                  {% elif "locationScope" in key %}
+                  <a href="https://standard.threesixtygiving.org/en/latest/technical/codelists/#location-scope"
+                     title="{{grant.source.additional_data.codeListLookup.locationScope}}"
+                     >{{value}}
+                  </a>
 
                   {% else %}
                   {{value}}
