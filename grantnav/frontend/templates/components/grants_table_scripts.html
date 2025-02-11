@@ -27,6 +27,7 @@
 const params = new URLSearchParams(window.location.search);
 const inputRows = params.get('rows');
 const inputColumns = params.getAll('widgetColumn');
+const isWidget = window.location.pathname.includes('widget');
 
 // We always want amount and date shown in the datatable
 inputColumns.push('amount');
@@ -106,7 +107,9 @@ function getColumns () {
       render: function (data, type, row) {
         return `<a href="/org/${row.fundingOrganization[0].id}" ${settings.linkTarget}>${truncate(data, 30)}</a>`;
       },
-      className: `${inputColumns.length >= 3 ? 'min-tablet-p' : 'min-tablet-l'}`,
+      className: `${inputColumns.length >= 3
+      ? isWidget ? 'min-tablet-p' : 'min-tablet-l'
+      : isWidget ? 'min-tablet-l' : 'min-desktop'}`,
       orderable: false
     },
     {
@@ -118,7 +121,9 @@ function getColumns () {
           return `<a href="/org/${row.recipientOrganization[0].id}" ${settings.linkTarget}>${truncate(data || row.recipientOrganization[0].id, 30)}</a>`;
         } else { return 'Individual'; }
       },
-      className: `${inputColumns.length >= 3 ? 'min-tablet-p' : 'min-tablet-l'}`,
+      className: `${inputColumns.length >= 3
+      ? isWidget ? 'min-tablet-p' : 'min-tablet-l'
+      : isWidget ? 'min-tablet-l' : 'min-desktop'}`,
       orderable: false
     },
     {
@@ -148,12 +153,7 @@ $.fn.dataTable.ext.errMode = 'throw';
 jQuery(function ($) {
   $('#search_grants_datatable').dataTable({
     serverSide: true,
-    responsive: {
-      breakpoints: [
-        { name: 'mobile-l', width: 575 },
-        { name: 'tablet-p', width: 1185 }
-      ]
-    },
+    responsive: true,
     searching: false,
     autoWidth: true,
     pageLength: getPageLength(),
