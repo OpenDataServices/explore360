@@ -3,6 +3,7 @@
 <style scoped>
 .remove-order-button:after {
  content: unset !important;
+ cursor: auto !important;
 }
 </style>
 
@@ -29,11 +30,13 @@
   {% endif %}
 </script>
 
+{{ widget|default:False|json_script:"is-widget-status" }}
+
 <script>
 const params = new URLSearchParams(window.location.search);
 const inputRows = params.get('rows');
 const inputColumns = params.getAll('widgetColumn');
-const isWidget = window.location.pathname.includes('widget');
+const isWidget = JSON.parse(document.getElementById('is-widget-status').textContent);
 
 // We always want amount and date shown in the datatable
 inputColumns.push('amount');
