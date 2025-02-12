@@ -1,5 +1,11 @@
 {% load get_current_sort from frontend %}
 
+<style scoped>
+.remove-order-button:after {
+ content: unset !important;
+}
+</style>
+
 <script
   type="text/javascript"
   src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"
@@ -83,7 +89,7 @@ function getColumns () {
       render: function (data, type, row) {
         return `<a href="/grant/${encodeURIComponent(row.id)}" ${settings.linkTarget}>${truncate(data, 40)}</a>`;
       },
-      className: 'all',
+      className: 'all remove-order-button',
       orderable: false
     },
     {
