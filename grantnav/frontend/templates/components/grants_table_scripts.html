@@ -1,5 +1,12 @@
 {% load get_current_sort from frontend %}
 
+<style scoped>
+.remove-order-button:after {
+ content: unset !important;
+ cursor: auto !important;
+}
+</style>
+
 <script
   type="text/javascript"
   src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"
@@ -23,11 +30,13 @@
   {% endif %}
 </script>
 
+{{ widget|default:False|json_script:"is-widget-status" }}
+
 <script>
 const params = new URLSearchParams(window.location.search);
 const inputRows = params.get('rows');
 const inputColumns = params.getAll('widgetColumn');
-const isWidget = window.location.pathname.includes('widget');
+const isWidget = JSON.parse(document.getElementById('is-widget-status').textContent);
 
 // We always want amount and date shown in the datatable
 inputColumns.push('amount');
@@ -83,7 +92,7 @@ function getColumns () {
       render: function (data, type, row) {
         return `<a href="/grant/${encodeURIComponent(row.id)}" ${settings.linkTarget}>${truncate(data, 40)}</a>`;
       },
-      className: 'all',
+      className: 'all remove-order-button',
       orderable: false
     },
     {
